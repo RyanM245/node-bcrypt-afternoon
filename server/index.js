@@ -1,8 +1,9 @@
-require('dotenv').config();
-const express = require('express');
-const session = require('express-session');
-const massive = require('massive');
-const authCtrl = require('./controllers/authControllers')
+require("dotenv").config();
+const express = require("express");
+const session = require("express-session");
+const massive = require("massive");
+const authCtrl = require("./controllers/authControllers");
+const treasureCtrl = require("./controllers/treasureController");
 
 const PORT = 4000;
 
@@ -14,10 +15,10 @@ app.use(express.json());
 
 massive({
   connectionString: CONNECTION_STRING,
-  ssl: { rejectUnauthorized: false }
-}).then(db => {
-  app.set('db', db);
-  console.log('db connected');
+  ssl: { rejectUnauthorized: false },
+}).then((db) => {
+  app.set("db", db);
+  console.log("db connected");
 });
 
 app.use(
@@ -28,10 +29,10 @@ app.use(
   })
 );
 
-app.post('/auth/register', authCtrl.register)
-app.post('/auth/login', authCtrl.login)
-app.get('/auth/logout', authCtrl.logout);
-
+app.post("/auth/register", authCtrl.register);
+app.post("/auth/login", authCtrl.login);
+app.get("/auth/logout", authCtrl.logout);
+app.get("/api/treasure/dragon", treasureCtrl.dragonTreasure);
 
 app.listen(PORT, () =>
   console.log(`Why are you running? ${PORT}! Why are you running?`)
